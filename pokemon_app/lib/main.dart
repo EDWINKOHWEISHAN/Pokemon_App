@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       create: (context) => PokemonProvider(),
       child: MaterialApp(
         title: 'Pokemon App',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),

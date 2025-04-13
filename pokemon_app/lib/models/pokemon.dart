@@ -4,6 +4,7 @@ class Pokemon {
   final String imageUrl;
   final List<String> types;
   final Map<String, dynamic> stats;
+  final int evolutionOrder; // 0: 初始形态, 1: 第一次进化, 2: 最终形态
 
   Pokemon({
     required this.id,
@@ -11,9 +12,10 @@ class Pokemon {
     required this.imageUrl,
     required this.types,
     required this.stats,
+    required this.evolutionOrder,
   });
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) {
+  factory Pokemon.fromJson(Map<String, dynamic> json, {int evolutionOrder = 0}) {
     return Pokemon(
       id: json['id'],
       name: json['name'],
@@ -27,6 +29,7 @@ class Pokemon {
         'special-defense': json['stats'][4]['base_stat'],
         'speed': json['stats'][5]['base_stat'],
       },
+      evolutionOrder: evolutionOrder,
     );
   }
 } 

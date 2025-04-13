@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Consumer<PokemonProvider>(
         builder: (context, pokemonProvider, child) {
-          if (pokemonProvider.pokemons.isEmpty && !pokemonProvider.isLoading) {
+          if (pokemonProvider.evolutionChains.isEmpty && !pokemonProvider.isLoading) {
             pokemonProvider.fetchPokemons();
             return const Center(child: CircularProgressIndicator());
           }
@@ -48,9 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
           return ListView.builder(
             controller: _scrollController,
             padding: const EdgeInsets.all(16),
-            itemCount: (pokemonProvider.pokemons.length / 3).ceil() + (pokemonProvider.isLoading ? 1 : 0),
+            itemCount: pokemonProvider.evolutionChains.length + (pokemonProvider.isLoading ? 1 : 0),
             itemBuilder: (context, index) {
-              if (index == (pokemonProvider.pokemons.length / 3).ceil()) {
+              if (index == pokemonProvider.evolutionChains.length) {
                 return const Center(
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
@@ -59,47 +59,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
 
+              final evolutionChain = pokemonProvider.evolutionChains[index];
               return Container(
                 height: 200,
                 margin: const EdgeInsets.only(bottom: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    for (int i = 0; i < 3; i++)
-                      if (index * 3 + i < pokemonProvider.pokemons.length)
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PokemonDetailScreen(
-                                    pokemon: pokemonProvider.pokemons[index * 3 + i],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Card(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.network(
-                                    pokemonProvider.pokemons[index * 3 + i].imageUrl,
-                                    height: 150,
-                                    width: 150,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    pokemonProvider.pokemons[index * 3 + i].name,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
+                    for (var pokemon in evolutionChain)
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PokemonDetailScreen(pokemon: pokemon),
                               ),
+                            );
+                          },
+                          child: Card(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.network(
+                                  pokemon.imageUrl,
+                                  height: 120,
+                                  width: 120,
+                                  fit: BoxFit.contain,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  pokemon.name,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
                           ),
+                        ),
+                      ),
+                    if (evolutionChain.length < 3)
+                      for (var i = 0; i < 3 - evolutionChain.length; i++)
+                        Expanded(
+                          child: Container(),
                         ),
                   ],
                 ),
