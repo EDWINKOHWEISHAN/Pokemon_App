@@ -12,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Implement "Swipe to the bottom to automatically load more pokemon"
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -27,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
       Provider.of<PokemonProvider>(context, listen: false).loadMorePokemons();
     }
   }
@@ -40,7 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Consumer<PokemonProvider>(
         builder: (context, pokemonProvider, child) {
-          if (pokemonProvider.evolutionChains.isEmpty && !pokemonProvider.isLoading) {
+          if (pokemonProvider.evolutionChains.isEmpty &&
+              !pokemonProvider.isLoading) {
             pokemonProvider.fetchPokemons();
             return const Center(child: CircularProgressIndicator());
           }
@@ -48,7 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
           return ListView.builder(
             controller: _scrollController,
             padding: const EdgeInsets.all(16),
-            itemCount: pokemonProvider.evolutionChains.length + (pokemonProvider.isLoading ? 1 : 0),
+            itemCount: pokemonProvider.evolutionChains.length +
+                (pokemonProvider.isLoading ? 1 : 0),
             itemBuilder: (context, index) {
               if (index == pokemonProvider.evolutionChains.length) {
                 return const Center(
@@ -73,7 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PokemonDetailScreen(pokemon: pokemon),
+                                builder: (context) =>
+                                    PokemonDetailScreen(pokemon: pokemon),
                               ),
                             );
                           },
@@ -115,4 +120,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-} 
+}

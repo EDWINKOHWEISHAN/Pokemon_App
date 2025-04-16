@@ -1,5 +1,7 @@
+// Used to display detailed information about a Pokemon
+
 import 'package:flutter/material.dart';
-import '../models/pokemon.dart';
+import '../models/pokemon.dart'; // a custom pokemon model class to obtain pokemon data
 
 class PokemonDetailScreen extends StatelessWidget {
   final Pokemon pokemon;
@@ -31,7 +33,8 @@ class PokemonDetailScreen extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             ...pokemon.stats.entries.map((stat) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -51,4 +54,4 @@ class PokemonDetailScreen extends StatelessWidget {
       ),
     );
   }
-} 
+}
