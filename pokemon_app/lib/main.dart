@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
       create: (context) => PokemonProvider(),
       child: MaterialApp(
         title: 'Pokemon App',
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner:
+            false, // Remove the debug label in the upper right corner
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
